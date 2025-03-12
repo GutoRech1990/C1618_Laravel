@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -44,4 +45,33 @@ Route::get('/dashboard', function () {
             "news" => $news
         ]
     );
+});
+
+// Query parameters
+Route::get('/search', function (Request $request) {
+    $keyword = $request->query('keyword');
+    return "Le contenue keyword = " . $keyword;
+});
+
+
+Route::get('/myprofile', function () {
+    return view('myprofile');
+});
+
+// Route::post('/result', function (Request $request) {
+//     $name = $request->query('name');
+//     $email = $request->query('email');
+//     $age = $request->query('age');
+//     return view('result', [
+//         "name" => $name,
+//         "email" => $email,
+//         "age" => $age
+//     ]);
+// });
+
+Route::post('/result', function (Request $request) {
+    $name = $request->input('name');
+    $email = $request->input('email');
+    $age = $request->input('age');
+    return view('result', compact('name', 'email', 'age'));
 });
