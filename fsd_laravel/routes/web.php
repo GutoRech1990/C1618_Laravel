@@ -75,3 +75,7 @@ Route::post('/result', function (Request $request) {
     $age = $request->input('age');
     return view('result', compact('name', 'email', 'age'));
 });
+
+use App\Http\Controllers\ProductController;
+
+Route::get("/products", [ProductController::class, "index"]);
