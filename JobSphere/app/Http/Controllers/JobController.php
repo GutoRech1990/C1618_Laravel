@@ -28,4 +28,17 @@ class JobController extends Controller
         ];
         return view('jobs.index', compact('title', 'availableJobs'));
     }
+
+    // La fonction qui retourne la vue pour créer un nouvel job
+    public function create()
+    {
+        return view('jobs.create');
+    }
+
+    // La fonction qui traite les donnees du formulaire
+    public function store(Request $request)
+    {
+        // Plus tard, nous stockerons les donnees dans la BD
+        return $request->all();
+    }
 }
