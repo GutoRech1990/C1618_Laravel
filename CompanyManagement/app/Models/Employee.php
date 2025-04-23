@@ -10,4 +10,14 @@ class Employee extends Model
     {
         return $this->belongsTo(Company::class);
     }
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'matricule',
+        'company_id',
+    ];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 }
