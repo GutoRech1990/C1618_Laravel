@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Employer;
+use App\Models\JobListing;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,6 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Employer::factory(10)->has(
+            JobListing::factory()->count(fake()->numberBetween(2, 5)),
+            "joblisting"
+        )->create();
+
         // User::factory(10)->create();
 
         User::factory()->create([
