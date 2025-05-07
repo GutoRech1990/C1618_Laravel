@@ -8,10 +8,18 @@ use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $title = 'Available Jobs';
-        $availableJobs = JobListing::with('employer')->latest()->get(); // Récupère les offres d'emploi disponibles avec les informations de l'employeur
+        if ($request->has('employer') && $request->employer != '') {
+            $query = JobListing::query();
+            $query->whereHas('employer', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->employer . '%');
+            });
+            $availableJobs = $query->with('employer', 'tags')->latest()->get(); // Récupère les offres d'emploi disponibles avec les informations de l'employeur
+        } else {
+            $availableJobs = JobListing::with('employer', 'tags')->latest()->get(); // Récupère les offres d'emploi disponibles avec les informations de l'employeur
+        }
         return view('jobs.index', compact('title', 'availableJobs'));
     }
 

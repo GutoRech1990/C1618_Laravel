@@ -20,10 +20,33 @@
         </div>
     @endif
 
+    {{-- Formulaire de recherche --}}
+    <form action="/jobs" method="GET">
+        <div class="relative border-2 border-gray-100 m-4 rounded-lg">
+            <div class="absolute top-4 left-4">
+                <i class="fa fa-search text-gray-400 z-20 hover:text-gray-500"></i>
+            </div>
+            <input type="text" name="employer" class="h-14 w-full pl-10 pr-20 rounded-lg z-0 focus:shadow focus:outline-none" placeholder="Search by employer..."/>
+            <button hidden type="submit"></button>
+        </div>
+    </form>
+
+    <!-- Back Button -->
+    @if(request()->has('employer'))
+        <a
+            href="/jobs"
+            class="bg-gray-700 hover:bg-gray-600 text-black px-4 py-2 rounded mb-4 inline-
+            block"
+            >
+            <i class="fa fa-arrow-left mr-1"></i> Back
+        </a>
+    @endif
+
     <div class="grid sm:grid-cols-1 lg:grid-cols-3 gap-6">
         @forelse($availableJobs as $job)
             <div class="bg-white rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300 border border-gray-100">
                 <div class="p-6">
+
                     <div class="flex justify-between items-start mb-4">
                         <h2 class="text-lg font-semibold text-gray-900">{{ $job->title }}</h2>
                         <span class="px-2 py-1 text-xs font-medium text-green-700 bg-green-50 rounded">New</span>
@@ -55,6 +78,16 @@
                                 <span>{{ $job->created_at->diffForHumans() }}</span>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Display Tags -->
+                    <div class="mb-4">
+                        <h3 class="text-sm font-semibold text-gray-700">Tags:</h3>
+                        <ul class="flex flex-wrap gap-2">
+                            @foreach($job->tags as $tag)
+                                <li class="text-xs font-medium px-2 py-1 bg-blue-100 text-blue-700 rounded">{{ $tag->name }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
