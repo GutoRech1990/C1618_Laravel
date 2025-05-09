@@ -41,14 +41,14 @@
             <i class="fa fa-arrow-left mr-1"></i> Back
         </a>
     @endif
-
+    
     <div class="grid sm:grid-cols-1 lg:grid-cols-3 gap-6">
         @forelse($availableJobs as $job)
             <div class="bg-white rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300 border border-gray-100">
                 <div class="p-6">
 
                     <div class="flex justify-between items-start mb-4">
-                        <h2 class="text-lg font-semibold text-gray-900">{{ $job->title }}</h2>
+                        <a href="/jobs/{{ $job->id }}" class="text-lg font-semibold text-gray-900">{{ $job->title }}</a>
                         <span class="px-2 py-1 text-xs font-medium text-green-700 bg-green-50 rounded">New</span>
                     </div>
                     
