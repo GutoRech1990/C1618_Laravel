@@ -22,14 +22,16 @@ class JobController extends Controller
         }
         return view('jobs.index', compact('title', 'availableJobs'));
     }
-
+// --------------------------------------------------------------------------------------------------------------------
+    
     // La fonction qui retourne la vue pour créer un nouvel job
     public function create()
     {
         $employers = Employer::all(); // Récupère tous les employeurs
         return view('jobs.create', compact('employers')); // Passe les employeurs à la vue
     }
-
+// --------------------------------------------------------------------------------------------------------------------
+    
     // La fonction qui traite les donnees du formulaire
     public function store(Request $request)
     {
@@ -48,7 +50,8 @@ class JobController extends Controller
         JobListing::create($validated);
         return redirect('/jobs')->with('success', 'Job offer created successfully!'); // Redirige vers la liste des jobs avec un message de succès
     }
-
+// --------------------------------------------------------------------------------------------------------------------
+    
     // La fonction qui retourne la vue pour afficher un job
     public function show(JobListing $job)
     {
@@ -56,13 +59,15 @@ class JobController extends Controller
         return view('jobs.show', compact('job')); // Passe le job à la vue
     }
 
+    
     // La fonction qui retourne la vue pour editer un job
     public function edit(JobListing $job)
     {
         $employers = Employer::all(); // Récupère tous les employeurs
         return view('jobs.edit', compact('job', 'employers')); // Passe le job et les employeurs à la vue
     }
-
+// --------------------------------------------------------------------------------------------------------------------
+    
     // La fonction qui traite les donnees du formulaire d'edition
     public function update(Request $request, JobListing $job)
     {
@@ -80,7 +85,8 @@ class JobController extends Controller
         $job->update($validated);
         return redirect('/jobs')->with('success', 'Job offer updated successfully!'); // Redirige vers la liste des jobs avec un message de succès  
     }
-
+// --------------------------------------------------------------------------------------------------------------------
+    
     // La fonction qui supprime un job
     public function destroy(JobListing $job)
     {

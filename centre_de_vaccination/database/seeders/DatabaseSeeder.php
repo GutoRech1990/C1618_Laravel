@@ -13,7 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Create 50 patients with vaccinations
+        \App\Models\Patient::factory(50)
+            ->has(\App\Models\Vaccination::factory()->count(fake()->numberBetween(1, 5)))
+            ->create();
+
+        // Create 50 vaccines with vaccinations
+        \App\Models\Vaccin::factory(50)
+            ->has(\App\Models\Vaccination::factory()->count(fake()->numberBetween(1, 10)))
+            ->create();
+        
 
         User::factory()->create([
             'name' => 'Test User',
