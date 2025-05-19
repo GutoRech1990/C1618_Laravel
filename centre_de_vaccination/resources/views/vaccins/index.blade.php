@@ -65,21 +65,43 @@
             button.addEventListener('click', function(e) {
                 e.preventDefault();
                 const form = this.closest('.delete-form');
+                const vaccinId = form.action.split('/').pop(); // Obter o ID da vacina a partir da URL
 
-                Swal.fire({
-                    title: 'Êtes-vous sûr?',
-                    text: "Cette action est irréversible!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Oui, supprimer!',
-                    cancelButtonText: 'Annuler'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
+                // Verificar os pacientes associados à vacina
+                fetch(`/vaccins/${vaccinId}/patients`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.patients.length > 0) {
+                            // Construir a lista de pacientes
+                            let patientList = data.patients.map(patient => `- ${patient.name}`).join(
+                                '<br>');
+
+                            // Mostrar alerta com a lista de pacientes
+                            Swal.fire({
+                                title: 'Impossible de supprimer!',
+                                html: `Cette vaccin est associé aux patients suivants:<br><br>${patientList}<br><br>Veuillez d'abord supprimer la vaccination de ces patients.`,
+                                icon: 'error',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+                            // Mostrar confirmação de exclusão
+                            Swal.fire({
+                                title: 'Êtes-vous sûr?',
+                                text: "Cette action est irréversible!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Oui, supprimer!',
+                                cancelButtonText: 'Annuler'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    form.submit();
+                                }
+                            });
+                        }
+                    });
             });
         });
     </script>

@@ -36,7 +36,8 @@
                                 class="inline-block delete-form">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" class="text-red-600 px-3 py-1 delete-button">
+                                <button type="button" class="text-red-600 px-3 py-1 delete-button"
+                                    data-id="{{ $patient->id }}">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </form>
@@ -63,26 +64,37 @@
     @endif
 
     <script>
-        // Confirmation avant la suppression
         document.querySelectorAll('.delete-button').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
                 const form = this.closest('.delete-form');
+                const patientId = this.getAttribute('data-id');
 
-                Swal.fire({
-                    title: 'Êtes-vous sûr?',
-                    text: "Cette action est irréversible!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Oui, supprimer!',
-                    cancelButtonText: 'Annuler'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
+                // Verificar se o paciente possui vacinações
+                fetch(`/patients/${patientId}/has-vaccinations`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let alertText = "Êtes-vous sûr de vouloir supprimer ce patient?";
+                        if (data.hasVaccinations) {
+                            alertText =
+                                "Ce patient a des vaccinations associées. Êtes-vous sûr de vouloir le supprimer? Cette action supprimera également les vaccinations associées.";
+                        }
+
+                        Swal.fire({
+                            title: 'Êtes-vous sûr?',
+                            text: alertText,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Oui, supprimer!',
+                            cancelButtonText: 'Annuler'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });
+                    });
             });
         });
     </script>

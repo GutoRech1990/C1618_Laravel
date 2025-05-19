@@ -36,6 +36,8 @@
                             <td class="border px-4">{{ $vaccination->vaccin->name }}</td>
                             <td class="border px-4">{{ $vaccination->vaccination_date }}</td>
                             <td class="border px-4">
+                                <a href="{{ route('vaccinations.edit', $vaccination->id) }}"
+                                    class="text-green-600 px-3 py-1"><i class="fa-solid fa-pen"></i></a>
                                 <form action="{{ route('vaccinations.destroy', $vaccination->id) }}" method="POST"
                                     class="inline-block delete-form">
                                     @csrf

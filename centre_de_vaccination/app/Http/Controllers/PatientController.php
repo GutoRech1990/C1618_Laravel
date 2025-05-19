@@ -138,4 +138,11 @@ class PatientController extends Controller
         // Rediriger vers la liste des patients avec un message de succès
         return redirect()->route('patients.index')->with('success', 'Patient supprimé avec succès.');
     }
+
+    public function hasVaccinations($id)
+    {
+        $hasVaccinations = \App\Models\Vaccination::where('patient_id', $id)->exists();
+
+        return response()->json(['hasVaccinations' => $hasVaccinations]);
+    }
 }

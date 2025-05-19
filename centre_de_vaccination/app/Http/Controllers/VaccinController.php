@@ -117,4 +117,14 @@ class VaccinController extends Controller
         // Redirect to the vaccines index page with a success message
         return redirect()->route('vaccins.index')->with('success', 'Vaccine deleted successfully.');
     }
+
+    public function getAssociatedPatients($id)
+    {
+        // Chercher les patients associés à un vaccin spécifique
+        $patients = \App\Models\Patient::whereHas('vaccinations', function ($query) use ($id) {
+            $query->where('vaccin_id', $id);
+        })->get(['id', 'name']);
+
+        return response()->json(['patients' => $patients]);
+    }
 }

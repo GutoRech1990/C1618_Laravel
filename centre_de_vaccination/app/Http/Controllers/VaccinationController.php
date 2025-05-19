@@ -105,7 +105,7 @@ class VaccinationController extends Controller
         $request->validate([
             'patient_id' => 'required|exists:patients,id',
             'vaccin_id' => 'required|exists:vaccins,id',
-            'date' => 'required|date',
+            'vaccination_date' => 'required|date',
         ]);
 
         // Fetch the vaccination by ID
@@ -114,13 +114,13 @@ class VaccinationController extends Controller
         // Update the vaccination details
         $vaccination->patient_id = $request->input('patient_id');
         $vaccination->vaccin_id = $request->input('vaccin_id');
-        $vaccination->date = $request->input('date');
+        $vaccination->vaccination_date = $request->input('vaccination_date');
 
         // Save the updated vaccination to the database
         $vaccination->save();
 
-        // Redirect to the vaccinations index page with a success message
-        return redirect()->route('vaccinations.index')->with('success', 'La vaccination a été mise à jour avec succès.');
+        // Redirect to the patient's show page with a success message
+        return redirect()->route('vaccinations.show', $vaccination->patient_id)->with('success', 'La vaccination a été mise à jour avec succès.');
     }
 
     /**
