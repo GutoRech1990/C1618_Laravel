@@ -67,16 +67,16 @@
                 const form = this.closest('.delete-form');
                 const vaccinId = form.action.split('/').pop(); // Obter o ID da vacina a partir da URL
 
-                // Verificar os pacientes associados à vacina
+                // Verifier se la vaccin est associée à des patients
                 fetch(`/vaccins/${vaccinId}/patients`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.patients.length > 0) {
-                            // Construir a lista de pacientes
+                            // Construir la liste de patients
                             let patientList = data.patients.map(patient => `- ${patient.name}`).join(
                                 '<br>');
 
-                            // Mostrar alerta com a lista de pacientes
+                            // Montrer l'alerte avec la liste des patients
                             Swal.fire({
                                 title: 'Impossible de supprimer!',
                                 html: `Cette vaccin est associé aux patients suivants:<br><br>${patientList}<br><br>Veuillez d'abord supprimer la vaccination de ces patients.`,
@@ -85,7 +85,7 @@
                                 confirmButtonText: 'OK'
                             });
                         } else {
-                            // Mostrar confirmação de exclusão
+                            // Montrer l'alerte de confirmation de suppression
                             Swal.fire({
                                 title: 'Êtes-vous sûr?',
                                 text: "Cette action est irréversible!",

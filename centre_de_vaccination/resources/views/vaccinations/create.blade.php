@@ -38,7 +38,7 @@
                 <label for="date" class="block text-gray-700 font-bold mb-2">Date de Vaccination:</label>
                 <input type="date" name="vaccination_date" id="date"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value="{{ old('vaccination_date') }}" required>
+                    value="{{ date('Y-m-d') }}" readonly>
                 @error('vaccination_date')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
