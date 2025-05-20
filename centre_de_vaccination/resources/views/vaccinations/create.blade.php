@@ -25,6 +25,7 @@
                     <option value="" disabled selected>Choisissez un vaccin</option>
                     @foreach ($vaccins as $vaccin)
                         <option value="{{ $vaccin->id }}" {{ old('vaccin_id') == $vaccin->id ? 'selected' : '' }}>
+                            {{-- l'atribut 'old' recuper le valeur ao cas d'erreur au envoyer le formulaire --}}
                             {{ $vaccin->name }}</option>
                     @endforeach
                 </select>

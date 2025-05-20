@@ -1,6 +1,6 @@
 <x-layout>
     <div class="max-w-4xl mx-auto mt-8">
-        <!-- Dados do Paciente -->
+        <!-- Donnes du patient -->
         <h1 class="text-2xl font-bold mb-6 text-center">Détails du Patient</h1>
         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <p><strong>Nom:</strong> {{ $patient->name }}</p>
@@ -9,7 +9,7 @@
             <p><strong>Date de Naissance:</strong> {{ $patient->birth_date }}</p>
         </div>
 
-        <!-- Botão para adicionar nova vacinação -->
+        <!-- Button pour ajouter une nouvelle vaccination -->
         <div class="mb-6 text-center">
             <a href="{{ route('vaccinations.create', $patient->id) }}"
                 class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 inline-block">
@@ -17,7 +17,7 @@
             </a>
         </div>
 
-        <!-- Lista de Vacinas -->
+        <!-- Liste de vaccinations du patient -->
         <h2 class="text-xl font-bold mb-4">Vaccinations</h2>
         @if ($vaccinations->isEmpty())
             <p class="text-gray-500">Aucune vaccination trouvée pour ce patient.</p>

@@ -1,6 +1,8 @@
 <x-layout>
     <div class="max-w-2xl mx-auto mt-8">
         <h1 class="text-2xl font-bold mb-6 text-center">Modifier un Vaccin</h1>
+        {{-- Formulaire pour edition du vaccin --}}
+        {{-- Dans la methode edit du controller, l'object $vaccin recuper les valeurs dans la BD --}}
         <form action="{{ route('vaccins.update', $vaccin) }}" method="POST"
             class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             @csrf

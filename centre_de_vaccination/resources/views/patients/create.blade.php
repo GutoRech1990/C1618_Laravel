@@ -1,6 +1,9 @@
 <x-layout>
     <div class="max-w-2xl mx-auto mt-8">
         <h1 class="text-2xl font-bold mb-6 text-center">Ajouter un Patient</h1>
+        {{-- Formulaire pour l'ajout d'un patient --}}
+        {{-- La methode store du controller va recuperer les valeurs du formulaire --}}
+        {{-- et les inserer dans la BD --}}
         <form action="{{ route('patients.store') }}" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             @csrf
             <div class="mb-4">

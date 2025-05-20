@@ -28,10 +28,10 @@
                             <a href="{{ route('patients.edit', $patient) }}" class="text-green-600 px-3 py-1"><i
                                     class="fa-solid fa-pen"></i></a>
 
-
+                            {{-- button pour verifier les vaccins du patient --}}
                             <a href="{{ route('vaccinations.show', $patient->id) }}" class="text-blue-600 px-3 py-1"><i
                                     class="fa-solid fa-syringe"></i></a>
-
+                            {{-- button pour suprimer un patient --}}
                             <form action="{{ route('patients.destroy', $patient) }}" method="POST"
                                 class="inline-block delete-form">
                                 @csrf

@@ -9,7 +9,7 @@
             <!-- Champ nom visible pour l'ID du patient -->
             <input type="hidden" name="patient_id" value="{{ $vaccination->patient_id }}">
 
-            <!-- Nom du patient ( non editable ) -->
+            <!-- Nom du patient ( non editable/ atribute 'disabled' ) -->
             <div class="mb-4">
                 <label for="patient_name" class="block text-gray-700 font-bold mb-2">Nom du Patient:</label>
                 <input type="text" id="patient_name" value="{{ $vaccination->patient->name }}"
@@ -23,10 +23,10 @@
                 <select name="vaccin_id" id="vaccin_id"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     required>
-                    <option value="" disabled>Choisissez un vaccin</option>
+                    <option value="" disabled>Choisissez un vaccin</option> {{-- l'atribut 'disabled' permet de choisir un vaccin mais ne pas chager le nom --}}
                     @foreach ($vaccins as $vaccin)
                         <option value="{{ $vaccin->id }}"
-                            {{ $vaccination->vaccin_id == $vaccin->id ? 'selected' : '' }}>
+                            {{ $vaccination->vaccin_id == $vaccin->id ? 'selected' : '' }}> {{-- verifi si l'ID du vaccin atuel est egual au vaccin associe --}}
                             {{ $vaccin->name }}</option>
                     @endforeach
                 </select>

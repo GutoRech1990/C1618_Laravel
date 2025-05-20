@@ -2,10 +2,12 @@
     <div>
         <h1 class="text-2xl font-bold mb-4 text-center">Liste de Vaccins</h1>
         <div class="mb-4 text-center">
+            {{-- Button pour creer un nuveau vaccin --}}
             <a href="{{ route('vaccins.create') }}"
                 class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 inline-block">Add Vaccin</a>
         </div>
 
+        {{-- Table pour montrer la liste des vaccins --}}
         <table class="table-auto border-collapse border border-gray-300 w-full mx-auto">
             <thead class="bg-gray-200">
                 <tr>
@@ -22,10 +24,12 @@
                         <td class="border px-4">{{ $vaccin->fabricant }}</td>
                         <td class="border px-4">{{ $vaccin->price }} €</td>
                         <td class="border px-4">
+                            {{-- button pour editer --}}
                             <a href="{{ route('vaccins.edit', $vaccin) }}"
                                 class="text-green-600 px-3 py-1 hover:bg-green-200 rounded">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
+                            {{-- button pour suprimer --}}
                             <form action="{{ route('vaccins.destroy', $vaccin) }}" method="POST"
                                 class="inline-block delete-form">
                                 @csrf
