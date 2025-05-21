@@ -5,6 +5,9 @@ use App\Http\Controllers\VaccinController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\VaccinationController;
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
 Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');

@@ -10,41 +10,50 @@
         <table class="table-auto border-collapse border border-gray-300 w-full mx-auto">
             <thead class="bg-gray-200">
                 <tr>
-                    <th class="px-4 py-2 border border-gray-300">Nom</th>
-                    <th class="px-4 py-2 border border-gray-300">Age</th>
-                    <th class="px-4 py-2 border border-gray-300 hidden md:table-cell">Adresse</th>
-                    <th class="px-4 py-2 border border-gray-300">Date de Naissance</th>
-                    <th class="px-4 py-2 border border-gray-300">Actions</th>
+                    <th class="px-2 sm:px-4 py-1 sm:py-2 border border-gray-300 text-xs sm:text-base">Nom</th>
+                    <th class="px-2 sm:px-4 py-1 sm:py-2 border border-gray-300 text-xs sm:text-base">Age</th>
+                    <th
+                        class="px-2 sm:px-4 py-1 sm:py-2 border border-gray-300 text-xs sm:text-base hidden md:table-cell">
+                        Adresse</th>
+                    <th class="px-2 sm:px-4 py-1 sm:py-2 border border-gray-300 text-xs sm:text-base">Date de Naissance
+                    </th>
+                    <th class="px-2 sm:px-4 py-1 sm:py-2 border border-gray-300 text-xs sm:text-base">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($patients as $patient)
                     <tr class="hover:bg-gray-100">
-                        <td class="border px-4">{{ $patient->name }}</td>
-                        <td class="border px-4">{{ $patient->age }}</td>
-                        <td class="border px-4 hidden md:table-cell">{{ $patient->adress }}</td>
-                        <td class="border px-4">{{ $patient->birth_date }}</td>
-                        <td class="border px-4">
-                            <a href="{{ route('patients.edit', $patient) }}" class="text-green-600 px-3 py-1"><i
-                                    class="fa-solid fa-pen"></i></a>
-
-                            {{-- button pour verifier les vaccins du patient --}}
-                            <a href="{{ route('vaccinations.show', $patient->id) }}" class="text-blue-600 px-3 py-1"><i
-                                    class="fa-solid fa-syringe"></i></a>
-                            {{-- button pour suprimer un patient --}}
+                        <td class="border px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-base">{{ $patient->name }}</td>
+                        <td class="border px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-base">{{ $patient->age }}</td>
+                        <td class="border px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-base hidden md:table-cell">
+                            {{ $patient->adress }}</td>
+                        <td class="border px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-base">{{ $patient->birth_date }}
+                        </td>
+                        <td class="border px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-base">
+                            <a href="{{ route('patients.edit', $patient) }}"
+                                class="text-green-600 px-1 sm:px-3 py-0.5 sm:py-1 hover:bg-green-200 rounded text-xs sm:text-base">
+                                <i class="fa-solid fa-pen text-xs sm:text-base"></i>
+                            </a>
+                            <a href="{{ route('vaccinations.show', $patient->id) }}"
+                                class="text-blue-600 px-1 sm:px-3 py-0.5 sm:py-1 hover:bg-blue-200 rounded text-xs sm:text-base">
+                                <i class="fa-solid fa-syringe text-xs sm:text-base"></i>
+                            </a>
                             <form action="{{ route('patients.destroy', $patient) }}" method="POST"
                                 class="inline-block delete-form">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" class="text-red-600 px-3 py-1 delete-button"
+                                <button type="button"
+                                    class="text-red-600 px-1 sm:px-3 py-0.5 sm:py-1 hover:bg-red-200 rounded delete-button text-xs sm:text-base"
                                     data-id="{{ $patient->id }}">
-                                    <i class="fa-solid fa-trash"></i>
+                                    <i class="fa-solid fa-trash text-xs sm:text-base"></i>
                                 </button>
                             </form>
                         </td>
                     </tr>
                 @empty
-                    <p class="text-gray-500">Aucun patient trouvé.</p>
+                    <tr>
+                        <td colspan="5" class="text-center text-gray-500 py-4">Aucun patient trouvé.</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
@@ -70,7 +79,7 @@
                 const form = this.closest('.delete-form');
                 const patientId = this.getAttribute('data-id');
 
-                // Verificar se o paciente possui vacinações
+                // Verifier si le patient a des vaccinations
                 fetch(`/patients/${patientId}/has-vaccinations`)
                     .then(response => response.json())
                     .then(data => {
@@ -98,6 +107,4 @@
             });
         });
     </script>
-
-
 </x-layout>

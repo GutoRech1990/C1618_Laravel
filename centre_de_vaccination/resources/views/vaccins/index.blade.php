@@ -2,52 +2,53 @@
     <div>
         <h1 class="text-2xl font-bold mb-4 text-center">Liste de Vaccins</h1>
         <div class="mb-4 text-center">
-            {{-- Button pour creer un nuveau vaccin --}}
             <a href="{{ route('vaccins.create') }}"
                 class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 inline-block">Add Vaccin</a>
         </div>
 
         {{-- Table pour montrer la liste des vaccins --}}
-        <table class="table-auto border-collapse border border-gray-300 w-full mx-auto">
-            <thead class="bg-gray-200">
-                <tr>
-                    <th class="px-4 py-2 border border-gray-300">Nom</th>
-                    <th class="px-4 py-2 border border-gray-300">Fabricant</th>
-                    <th class="px-4 py-2 border border-gray-300">Prix</th>
-                    <th class="px-4 py-2 border border-gray-300">Actions</th>
-                </tr>
-            </thead>
-            <tbody id="vaccinTable">
-                @forelse ($vaccins as $vaccin)
-                    <tr class="hover:bg-gray-100">
-                        <td class="border px-4">{{ $vaccin->name }}</td>
-                        <td class="border px-4">{{ $vaccin->fabricant }}</td>
-                        <td class="border px-4">{{ $vaccin->price }} €</td>
-                        <td class="border px-4">
-                            {{-- button pour editer --}}
-                            <a href="{{ route('vaccins.edit', $vaccin) }}"
-                                class="text-green-600 px-3 py-1 hover:bg-green-200 rounded">
-                                <i class="fa-solid fa-pen"></i>
-                            </a>
-                            {{-- button pour suprimer --}}
-                            <form action="{{ route('vaccins.destroy', $vaccin) }}" method="POST"
-                                class="inline-block delete-form">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button"
-                                    class="text-red-600 px-3 py-1 hover:bg-red-200 rounded delete-button">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
+        <div>
+            <table class="table-auto border-collapse border border-gray-300 w-full mx-auto">
+                <thead class="bg-gray-200">
                     <tr>
-                        <td colspan="4" class="text-center text-gray-500 py-4">Aucun vaccin trouvé.</td>
+                        <th class="px-2 sm:px-4 py-1 sm:py-2 border border-gray-300 text-xs sm:text-base">Nom</th>
+                        <th class="px-2 sm:px-4 py-1 sm:py-2 border border-gray-300 text-xs sm:text-base">Fabricant</th>
+                        <th class="px-2 sm:px-4 py-1 sm:py-2 border border-gray-300 text-xs sm:text-base">Prix</th>
+                        <th class="px-2 sm:px-4 py-1 sm:py-2 border border-gray-300 text-xs sm:text-base">Actions</th>
                     </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="vaccinTable">
+                    @forelse ($vaccins as $vaccin)
+                        <tr class="hover:bg-gray-100">
+                            <td class="border px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-base">{{ $vaccin->name }}</td>
+                            <td class="border px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-base">{{ $vaccin->fabricant }}
+                            </td>
+                            <td class="border px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-base">{{ $vaccin->price }} €
+                            </td>
+                            <td class="border px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-base">
+                                <a href="{{ route('vaccins.edit', $vaccin) }}"
+                                    class="text-green-600 px-1 sm:px-3 py-0.5 sm:py-1 hover:bg-green-200 rounded text-xs sm:text-base">
+                                    <i class="fa-solid fa-pen text-xs sm:text-base"></i>
+                                </a>
+                                <form action="{{ route('vaccins.destroy', $vaccin) }}" method="POST"
+                                    class="inline-block delete-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button"
+                                        class="text-red-600 px-1 sm:px-3 py-0.5 sm:py-1 hover:bg-red-200 rounded delete-button text-xs sm:text-base">
+                                        <i class="fa-solid fa-trash text-xs sm:text-base"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center text-gray-500 py-4">Aucun vaccin trouvé.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Script pour alert personalise -->
@@ -69,9 +70,9 @@
             button.addEventListener('click', function(e) {
                 e.preventDefault();
                 const form = this.closest('.delete-form');
-                const vaccinId = form.action.split('/').pop(); // Obter o ID da vacina a partir da URL
+                const vaccinId = form.action.split('/').pop(); // Obtenir l'ID du vaccin à partir de l'URL
 
-                // Verifier se la vaccin est associée à des patients
+                // Verifier si la vaccin est associée à des patients
                 fetch(`/vaccins/${vaccinId}/patients`)
                     .then(response => response.json())
                     .then(data => {

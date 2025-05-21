@@ -139,6 +139,9 @@ class PatientController extends Controller
         return redirect()->route('patients.index')->with('success', 'Patient supprimé avec succès.');
     }
 
+    /**
+     * La fonction hasVaccinations qui vérifie si un patient a des vaccinations.
+     */
     public function hasVaccinations($id)
     {
         $hasVaccinations = \App\Models\Vaccination::where('patient_id', $id)->exists();
