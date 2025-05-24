@@ -28,7 +28,7 @@
                     <label for="vaccin_id" class="block text-sm font-medium text-gray-700">Vaccin</label>
                     <div class="mt-1">
                         <select name="vaccin_id" id="vaccin_id"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm @error('vaccin_id') border-red-300 @enderror">
+                            class="block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm {{ $errors->has('vaccin_id') ? 'border-red-300' : 'border-gray-300' }}">
                             <option value="" disabled selected>Choisissez un vaccin</option>
                             @foreach ($vaccins as $vaccin)
                                 <option value="{{ $vaccin->id }}"
@@ -49,7 +49,7 @@
                         Vaccination</label>
                     <div class="mt-1">
                         <input type="date" name="vaccination_date" id="vaccination_date"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm @error('vaccination_date') border-red-300 @enderror"
+                            class="block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm {{ $errors->has('vaccination_date') ? 'border-red-300' : 'border-gray-300' }}"
                             value="{{ old('vaccination_date', date('Y-m-d')) }}" required>
                         @error('vaccination_date')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

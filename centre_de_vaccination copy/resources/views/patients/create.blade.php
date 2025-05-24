@@ -16,7 +16,7 @@
                     <label for="name" class="block text-sm font-medium text-gray-700">Nom</label>
                     <div class="mt-1">
                         <input type="text" name="name" id="name"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm @error('name') border-red-300 @enderror"
+                            class="block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm {{ $errors->has('name') ? 'border-red-300' : 'border-gray-300' }}"
                             placeholder="Nom du patient" value="{{ old('name') }}" required>
                         @error('name')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -29,7 +29,7 @@
                     <label for="adress" class="block text-sm font-medium text-gray-700">Adresse</label>
                     <div class="mt-1">
                         <input type="text" name="adress" id="adress"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm @error('adress') border-red-300 @enderror"
+                            class="block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm {{ $errors->has('adress') ? 'border-red-300' : 'border-gray-300' }}"
                             placeholder="Adresse du patient" value="{{ old('adress') }}" required>
                         @error('adress')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -42,7 +42,7 @@
                     <label for="birth_date" class="block text-sm font-medium text-gray-700">Date de Naissance</label>
                     <div class="mt-1">
                         <input type="date" name="birth_date" id="birth_date"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm @error('birth_date') border-red-300 @enderror"
+                            class="block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm {{ $errors->has('birth_date') ? 'border-red-300' : 'border-gray-300' }}"
                             value="{{ old('birth_date') }}" required>
                         @error('birth_date')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -55,7 +55,7 @@
                     <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
                     <div class="mt-1">
                         <input type="number" name="age" id="age"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm @error('age') border-red-300 @enderror"
+                            class="block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm {{ $errors->has('age') ? 'border-red-300' : 'border-gray-300' }}"
                             placeholder="Âge du patient" value="{{ old('age') }}" required>
                         @error('age')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>

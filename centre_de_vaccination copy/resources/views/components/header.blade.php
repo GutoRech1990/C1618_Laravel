@@ -7,7 +7,7 @@
                         class="text-2xl font-bold tracking-tight group-hover:text-blue-200 transition-colors duration-200">
                         Centre de Vaccination</h1>
                     <i
-                        class="fa-solid fa-syringe text-2xl group-hover:text-blue-200 transition-colors duration-200 hidden sm:inline transform group-hover:rotate-12 transition-transform"></i>
+                        class="fa-solid fa-syringe text-2xl group-hover:text-blue-200 hidden sm:inline transform group-hover:rotate-12 transition-all duration-200"></i>
                 </a>
                 <nav class="hidden md:block">
                     <ul class="flex space-x-8">

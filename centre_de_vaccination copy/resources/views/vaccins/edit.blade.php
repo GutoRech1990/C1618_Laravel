@@ -17,7 +17,7 @@
                     <label for="name" class="block text-sm font-medium text-gray-700">Nom</label>
                     <div class="mt-1">
                         <input type="text" name="name" id="name"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm @error('name') border-red-300 @enderror"
+                            class="block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm {{ $errors->has('name') ? 'border-red-300' : 'border-gray-300' }}"
                             placeholder="Nom du vaccin" value="{{ old('name', $vaccin->name) }}" required>
                         @error('name')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -30,7 +30,7 @@
                     <label for="fabricant" class="block text-sm font-medium text-gray-700">Fabricant</label>
                     <div class="mt-1">
                         <input type="text" name="fabricant" id="fabricant"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm @error('fabricant') border-red-300 @enderror"
+                            class="block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm {{ $errors->has('fabricant') ? 'border-red-300' : 'border-gray-300' }}"
                             placeholder="Fabricant du vaccin" value="{{ old('fabricant', $vaccin->fabricant) }}"
                             required>
                         @error('fabricant')
@@ -44,7 +44,7 @@
                     <label for="price" class="block text-sm font-medium text-gray-700">Prix (€)</label>
                     <div class="mt-1 relative rounded-md shadow-sm">
                         <input type="number" name="price" id="price" step="0.01"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm @error('price') border-red-300 @enderror"
+                            class="block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm {{ $errors->has('price') ? 'border-red-300' : 'border-gray-300' }}"
                             placeholder="0.00" value="{{ old('price', $vaccin->price) }}" required>
                         <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                             <span class="text-gray-500 sm:text-sm">€</span>
