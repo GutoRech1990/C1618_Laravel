@@ -7,120 +7,124 @@ use Illuminate\Http\Request;
 class VaccinController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Affiche la liste de tous les vaccins.
      */
     public function index()
     {
-        // Fetch all vaccines from the database
+        // Récupère tous les vaccins de la base de données, triés par nom
         $vaccins = \App\Models\Vaccin::orderBy('name')->get();
 
-        // Return the view with the list of vaccines
+        // Retourne la vue avec la liste des vaccins
         return view('vaccins.index', compact('vaccins'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Affiche le formulaire pour créer un nouveau vaccin.
      */
     public function create()
     {
-        // Return the view with the form to create a new vaccine
+        // Retourne la vue contenant le formulaire de création d'un nouveau vaccin
         return view('vaccins.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Enregistre un nouveau vaccin dans la base de données.
      */
     public function store(Request $request)
     {
-        // Validate the request data
+        // Valide les données du formulaire
         $request->validate([
             'name' => 'required|string|max:255',
             'fabricant' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
         ]);
 
-        // Create a new vaccine instance
+        // Crée une nouvelle instance de vaccin
         $vaccin = new \App\Models\Vaccin();
         $vaccin->name = $request->input('name');
         $vaccin->fabricant = $request->input('fabricant');
         $vaccin->price = $request->input('price');
 
-        // Save the vaccine to the database
+        // Sauvegarde le vaccin dans la base de données
         $vaccin->save();
 
-        // Redirect to the vaccines index page with a success message
-        return redirect()->route('vaccins.index')->with('success', 'Vaccine created successfully.');
+        // Redirige vers la liste des vaccins avec un message de succès
+        return redirect()->route('vaccins.index')->with('success', 'Vaccin créé avec succès.');
     }
 
     /**
-     * Display the specified resource.
+     * Affiche les détails d'un vaccin spécifique.
      */
     public function show(string $id)
     {
-        // Fetch the vaccine by ID
+        // Récupère le vaccin par son ID
         $vaccin = \App\Models\Vaccin::findOrFail($id);
 
-        // Return the view with the vaccine details
+        // Retourne la vue avec les détails du vaccin
         return view('vaccins.show', compact('vaccin'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Affiche le formulaire pour modifier un vaccin existant.
      */
     public function edit(string $id)
     {
-        // Fetch the vaccine by ID
+        // Récupère le vaccin par son ID
         $vaccin = \App\Models\Vaccin::findOrFail($id);
 
-        // Return the view with the form to edit the vaccine
+        // Retourne la vue avec le formulaire de modification
         return view('vaccins.edit', compact('vaccin'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Met à jour un vaccin existant dans la base de données.
      */
     public function update(Request $request, string $id)
     {
-        // Validate the request data
+        // Valide les données du formulaire
         $request->validate([
             'name' => 'required|string|max:255',
             'fabricant' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
         ]);
 
-        // Fetch the vaccine by ID
+        // Récupère le vaccin par son ID
         $vaccin = \App\Models\Vaccin::findOrFail($id);
 
-        // Update the vaccine details
+        // Met à jour les informations du vaccin
         $vaccin->name = $request->input('name');
         $vaccin->fabricant = $request->input('fabricant');
         $vaccin->price = $request->input('price');
 
-        // Save the changes to the database
+        // Sauvegarde les modifications dans la base de données
         $vaccin->save();
 
-        // Redirect to the vaccines index page with a success message
-        return redirect()->route('vaccins.index')->with('success', 'Vaccine updated successfully.');
+        // Redirige vers la liste des vaccins avec un message de succès
+        return redirect()->route('vaccins.index')->with('success', 'Vaccin mis à jour avec succès.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprime un vaccin de la base de données.
      */
     public function destroy(string $id)
     {
-        // Fetch the vaccine by ID
+        // Récupère le vaccin par son ID
         $vaccin = \App\Models\Vaccin::findOrFail($id);
 
-        // Delete the vaccine from the database
+        // Supprime le vaccin de la base de données
         $vaccin->delete();
 
-        // Redirect to the vaccines index page with a success message
-        return redirect()->route('vaccins.index')->with('success', 'Vaccine deleted successfully.');
+        // Redirige vers la liste des vaccins avec un message de succès
+        return redirect()->route('vaccins.index')->with('success', 'Vaccin supprimé avec succès.');
     }
 
+    /**
+     * Récupère la liste des patients associés à un vaccin spécifique.
+     * Cette méthode est utilisée pour les vérifications AJAX avant la suppression d'un vaccin.
+     */
     public function getAssociatedPatients($id)
     {
-        // Chercher les patients associés à un vaccin spécifique
+        // Cherche les patients qui ont reçu ce vaccin spécifique
         $patients = \App\Models\Patient::whereHas('vaccinations', function ($query) use ($id) {
             $query->where('vaccin_id', $id);
         })->get(['id', 'name']);

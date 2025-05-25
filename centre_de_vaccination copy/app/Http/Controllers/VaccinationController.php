@@ -7,43 +7,49 @@ use Illuminate\Http\Request;
 class VaccinationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Affiche la liste de toutes les vaccinations.
+     * Cette méthode récupère tous les patients et leurs vaccinations associées.
      */
     public function index()
     {
+        // Récupère tous les patients
         $patients = \App\Models\Patient::all();
+        // Récupère toutes les vaccinations
         $vaccinations = \App\Models\Vaccination::all();
 
+        // Retourne la vue avec les patients et leurs vaccinations
         return view('patients.index', compact('patients', 'vaccinations'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Affiche le formulaire pour créer une nouvelle vaccination.
+     * @param int $patientId L'identifiant du patient à vacciner
      */
     public function create($patientId)
     {
-        // Cherche le patient par ID
+        // Récupère le patient par son ID
         $patient = \App\Models\Patient::findOrFail($patientId);
-        // Fetch all patients and vaccines from the database
+        // Récupère tous les vaccins disponibles, triés par nom
         $vaccins = \App\Models\Vaccin::orderBy('name')->get();
 
-        // Return the view with the form to create a new vaccination
+        // Retourne la vue avec le formulaire de création d'une vaccination
         return view('vaccinations.create', compact('patient', 'vaccins'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Enregistre une nouvelle vaccination dans la base de données.
+     * Vérifie également si le patient n'a pas déjà reçu ce vaccin.
      */
     public function store(Request $request)
     {
-        // Validate the request data
+        // Valide les données du formulaire
         $request->validate([
             'patient_id' => 'required|exists:patients,id',
             'vaccin_id' => 'required|exists:vaccins,id',
             'vaccination_date' => 'required|date',
         ]);
 
-        // Check if the patient already has a vaccination for the same vaccine
+        // Vérifie si le patient a déjà reçu ce vaccin
         $existingVaccination = \App\Models\Vaccination::where('patient_id', $request->input('patient_id'))
             ->where('vaccin_id', $request->input('vaccin_id'))
             ->first();
@@ -51,93 +57,93 @@ class VaccinationController extends Controller
             return redirect()->back()->withErrors(['vaccin_id' => 'Ce patient a déjà été vacciné pour ce vaccin.']);
         }
 
-
-        // Create a new vaccination instance
+        // Crée une nouvelle instance de vaccination
         $vaccination = new \App\Models\Vaccination();
         $vaccination->patient_id = $request->input('patient_id');
         $vaccination->vaccin_id = $request->input('vaccin_id');
         $vaccination->vaccination_date = $request->input('vaccination_date');
 
-        // Save the vaccination to the database
+        // Sauvegarde la vaccination dans la base de données
         $vaccination->save();
 
-        // Redirect to the vaccinations index page with a success message
+        // Redirige vers la page de détails des vaccinations du patient avec un message de succès
         return redirect()->route('vaccinations.show', $request->input('patient_id'))->with('success', 'Vaccination réalisée avec succès.');
     }
 
     /**
-     * Display the specified resource.
+     * Affiche les détails des vaccinations d'un patient spécifique.
+     * @param string $patientId L'identifiant du patient
      */
     public function show(string $patientId)
     {
-        // Fetch le patient by ID
+        // Récupère le patient par son ID
         $patient = \App\Models\Patient::findOrFail($patientId);
 
-        // Cherche les vaccin associés au patient
+        // Récupère toutes les vaccinations du patient avec les informations des vaccins associés
         $vaccinations = \App\Models\Vaccination::where('patient_id', $patientId)->with('vaccin')->get();
 
-        // Retourne la vue avec les détails de la vaccination
+        // Retourne la vue avec les détails du patient et ses vaccinations
         return view('vaccinations.show', compact('patient', 'vaccinations'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Affiche le formulaire pour modifier une vaccination existante.
      */
     public function edit(string $id)
     {
-        // Fetch the vaccination by ID
+        // Récupère la vaccination par son ID
         $vaccination = \App\Models\Vaccination::findOrFail($id);
 
-        // Fetch all patients and vaccines from the database
+        // Récupère tous les patients et vaccins pour les listes déroulantes
         $patients = \App\Models\Patient::orderBy('name')->get();
         $vaccins = \App\Models\Vaccin::orderBy('name')->get();
 
-        // Return the view with the form to edit the vaccination
+        // Retourne la vue avec le formulaire de modification
         return view('vaccinations.edit', compact('vaccination', 'patients', 'vaccins'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Met à jour une vaccination existante dans la base de données.
      */
     public function update(Request $request, string $id)
     {
-        // Validate the request data
+        // Valide les données du formulaire
         $request->validate([
             'patient_id' => 'required|exists:patients,id',
             'vaccin_id' => 'required|exists:vaccins,id',
             'vaccination_date' => 'required|date',
         ]);
 
-        // Fetch the vaccination by ID
+        // Récupère la vaccination par son ID
         $vaccination = \App\Models\Vaccination::findOrFail($id);
 
-        // Update the vaccination details
+        // Met à jour les informations de la vaccination
         $vaccination->patient_id = $request->input('patient_id');
         $vaccination->vaccin_id = $request->input('vaccin_id');
         $vaccination->vaccination_date = $request->input('vaccination_date');
 
-        // Save the updated vaccination to the database
+        // Sauvegarde les modifications dans la base de données
         $vaccination->save();
 
-        // Redirect to the patient's show page with a success message
+        // Redirige vers la page de détails des vaccinations du patient avec un message de succès
         return redirect()->route('vaccinations.show', $vaccination->patient_id)->with('success', 'La vaccination a été mise à jour avec succès.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprime une vaccination de la base de données.
      */
     public function destroy(string $id)
     {
-        // Fetch the vaccination by ID
+        // Récupère la vaccination par son ID
         $vaccination = \App\Models\Vaccination::findOrFail($id);
 
-        // Get the patient ID from the vaccination record
+        // Stocke l'ID du patient pour la redirection
         $patientId = $vaccination->patient_id;
 
-        // Delete the vaccination from the database
+        // Supprime la vaccination de la base de données
         $vaccination->delete();
 
-        // Redirect to the vaccinations index page with a success message
+        // Redirige vers la page de détails des vaccinations du patient avec un message de succès
         return redirect()->route('vaccinations.show', $patientId)->with('success', 'Vaccination supprimée avec succès.');
     }
 }

@@ -1,13 +1,13 @@
 <x-layout>
     <div class="max-w-7xl mx-auto">
-        <!-- Header Section -->
+        {{-- Section d'en-tête avec titre et boutons d'action --}}
         <div class="mb-8 sm:flex sm:items-center sm:justify-between">
             <div class="mb-6 sm:mb-0">
                 <h1 class="text-3xl font-bold text-gray-900">Liste des Vaccins</h1>
                 <p class="mt-2 text-sm text-gray-700">Gérez et consultez tous les vaccins disponibles</p>
             </div>
             <div class="flex flex-col sm:flex-row gap-4 sm:items-center">
-                <!-- Boite de recherche -->
+                {{-- Barre de recherche avec icône --}}
                 <div class="relative">
                     <input type="text" id="searchVaccin"
                         class="block w-full rounded-md border-gray-300 pl-10 pr-4 py-2 text-sm placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500"
@@ -16,6 +16,7 @@
                         <i class="fa-solid fa-search text-gray-400"></i>
                     </div>
                 </div>
+                {{-- Bouton pour ajouter un nouveau vaccin --}}
                 <a href="{{ route('vaccins.create') }}"
                     class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
                     <i class="fa-solid fa-plus mr-2"></i>
@@ -24,10 +25,11 @@
             </div>
         </div>
 
-        <!-- Table Section -->
+        {{-- Section du tableau des vaccins --}}
         <div class="bg-white shadow-sm rounded-lg overflow-hidden">
             <div class="overflow-x-auto min-w-full">
                 <table class="min-w-full divide-y divide-gray-200">
+                    {{-- En-tête du tableau --}}
                     <thead class="bg-gray-50">
                         <tr>
                             <th scope="col"
@@ -38,6 +40,7 @@
                                 Actions</th>
                         </tr>
                     </thead>
+                    {{-- Corps du tableau avec ID pour la fonction de recherche --}}
                     <tbody class="bg-white divide-y divide-gray-200" id="vaccinTable">
                         @forelse ($vaccins as $vaccin)
                             <tr class="hover:bg-gray-50 transition-colors duration-200">
@@ -52,10 +55,12 @@
                                 </td>
                                 <td class="px-4 sm:px-6 py-4">
                                     <div class="flex items-center justify-end gap-4">
+                                        {{-- Bouton de modification --}}
                                         <a href="{{ route('vaccins.edit', $vaccin) }}"
                                             class="text-blue-600 hover:text-blue-900 transition-colors duration-200">
                                             <i class="fa-solid fa-pen text-lg"></i>
                                         </a>
+                                        {{-- Formulaire de suppression avec confirmation --}}
                                         <form action="{{ route('vaccins.destroy', $vaccin) }}" method="POST"
                                             class="inline-block delete-form">
                                             @csrf
@@ -69,6 +74,7 @@
                                 </td>
                             </tr>
                         @empty
+                            {{-- Message affiché lorsqu'aucun vaccin n'est trouvé --}}
                             <tr>
                                 <td colspan="2" class="px-4 sm:px-6 py-4 text-center">
                                     <div class="flex flex-col items-center justify-center py-8">
@@ -86,6 +92,7 @@
         </div>
     </div>
 
+    {{-- Affichage des messages de succès avec SweetAlert2 --}}
     @if (session('success'))
         <script>
             Swal.fire({
@@ -100,7 +107,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Delete confirmation
+            // Configuration de la confirmation de suppression avec SweetAlert2
             const deleteButtons = document.querySelectorAll('.delete-button');
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -121,20 +128,22 @@
                 });
             });
 
-            // Fonction de recherche
+            // Système de recherche en temps réel
             const searchInput = document.getElementById('searchVaccin');
             const rows = document.querySelectorAll('tbody tr');
 
+            // Écouteur d'événements pour la recherche instantanée
             searchInput.addEventListener('input', function(e) {
                 const searchTerm = e.target.value.toLowerCase();
 
+                // Parcours de toutes les lignes pour filtrer les résultats
                 rows.forEach(row => {
-                    if (row.querySelector('td')) { // Skip empty state row
+                    if (row.querySelector('td')) { // Ignore la ligne d'état vide
                         const name = row.querySelector('.text-gray-900').textContent.toLowerCase();
                         if (name.includes(searchTerm)) {
-                            row.style.display = '';
+                            row.style.display = ''; // Affiche la ligne si elle correspond
                         } else {
-                            row.style.display = 'none';
+                            row.style.display = 'none'; // Cache la ligne si elle ne correspond pas
                         }
                     }
                 });

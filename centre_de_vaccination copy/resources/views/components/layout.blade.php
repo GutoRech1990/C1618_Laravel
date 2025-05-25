@@ -38,7 +38,14 @@
         </footer>
     </div>
 
-    <!-- Mobile menu script -->
+    {{-- 
+        Script pour gérer le menu mobile:
+        - Attend que le DOM soit complètement chargé
+        - Récupère le bouton du menu mobile et le conteneur du menu
+        - Ajoute un écouteur d'événements sur le bouton
+        - Lorsque le bouton est cliqué, bascule la classe 'hidden' pour afficher/masquer le menu
+        Ce script permet de créer un menu hamburger responsive pour les appareils mobiles
+    --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const mobileMenuButton = document.querySelector('.md\\:hidden.text-white');
