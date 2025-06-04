@@ -8,7 +8,7 @@
 
         {{-- Section du formulaire de modification --}}
         <div class="bg-white shadow-sm rounded-lg overflow-hidden">
-            {{-- Formulaire avec méthode PUT pour la mise à jour --}}
+            {{-- Formulaire avec méthode POST pour la mise à jour --}}
             <form action="{{ route('vaccins.update', $vaccin) }}" method="POST" class="p-6 space-y-6">
                 @csrf
                 @method('PUT')

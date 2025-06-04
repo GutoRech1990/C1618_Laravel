@@ -15,7 +15,6 @@ Route::post('/patients', [PatientController::class, 'store'])->name('patients.st
 Route::get('/patients/{patient}/edit', [PatientController::class, 'edit'])->name('patients.edit');
 Route::put('/patients/{patient}', [PatientController::class, 'update'])->name('patients.update');
 Route::delete('/patients/{patient}', [PatientController::class, 'destroy'])->name('patients.destroy');
-Route::get('/patients/{id}/has-vaccinations', [PatientController::class, 'hasVaccinations'])->name('patients.hasVaccinations');
 
 Route::get('/vaccins', [VaccinController::class, 'index'])->name('vaccins.index');
 Route::get('/vaccins/create', [VaccinController::class, 'create'])->name('vaccins.create');
@@ -23,7 +22,6 @@ Route::post('/vaccins', [VaccinController::class, 'store'])->name('vaccins.store
 Route::get('/vaccins/{vaccin}/edit', [VaccinController::class, 'edit'])->name('vaccins.edit');
 Route::put('/vaccins/{vaccin}', [VaccinController::class, 'update'])->name('vaccins.update');
 Route::delete('/vaccins/{vaccin}', [VaccinController::class, 'destroy'])->name('vaccins.destroy');
-Route::get('/vaccins/{id}/patients', [VaccinController::class, 'getAssociatedPatients'])->name('vaccins.patients');
 
 Route::get('/vaccinations', [VaccinationController::class, 'index'])->name('vaccinations.index');
 Route::get('/vaccinations/{patient}/create', [VaccinationController::class, 'create'])->name('vaccinations.create');

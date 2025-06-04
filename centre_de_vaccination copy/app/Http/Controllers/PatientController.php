@@ -29,11 +29,8 @@ class PatientController extends Controller
      */
     public function create()
     {
-        // Récupérer tous les vaccins pour le formulaire
-        $vaccins = Vaccin::all();
-
         // Retourner la vue avec le formulaire de création et la liste des vaccins
-        return view('patients.create', compact('vaccins'));
+        return view('patients.create');
     }
     // -------------------------------------------------------------------------------------
 
@@ -145,18 +142,5 @@ class PatientController extends Controller
 
         // Rediriger vers la liste des patients avec un message de confirmation
         return redirect()->route('patients.index')->with('success', 'Patient supprimé avec succès.');
-    }
-
-    /**
-     * La fonction hasVaccinations qui vérifie si un patient a des vaccinations.
-     * Cette méthode est utilisée pour les vérifications AJAX avant la suppression d'un patient.
-     */
-    public function hasVaccinations($id)
-    {
-        // Vérifier l'existence de vaccinations pour ce patient
-        $hasVaccinations = \App\Models\Vaccination::where('patient_id', $id)->exists();
-
-        // Retourner le résultat en format JSON pour la requête AJAX
-        return response()->json(['hasVaccinations' => $hasVaccinations]);
     }
 }

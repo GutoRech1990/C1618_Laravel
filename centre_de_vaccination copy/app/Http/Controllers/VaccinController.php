@@ -117,18 +117,4 @@ class VaccinController extends Controller
         // Redirige vers la liste des vaccins avec un message de succès
         return redirect()->route('vaccins.index')->with('success', 'Vaccin supprimé avec succès.');
     }
-
-    /**
-     * Récupère la liste des patients associés à un vaccin spécifique.
-     * Cette méthode est utilisée pour les vérifications AJAX avant la suppression d'un vaccin.
-     */
-    public function getAssociatedPatients($id)
-    {
-        // Cherche les patients qui ont reçu ce vaccin spécifique
-        $patients = \App\Models\Patient::whereHas('vaccinations', function ($query) use ($id) {
-            $query->where('vaccin_id', $id);
-        })->get(['id', 'name']);
-
-        return response()->json(['patients' => $patients]);
-    }
 }
